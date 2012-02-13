@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<!--
+Copyright 2004-2007 Christos KK Loverdos.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+
+<!-- This build.xml is directly adapted from the one of ckkl-core -->
+    
+<project name="jbootstrap" default="all" basedir=".">
+
+    <import file="ant-util.xml"/>
+
+    <!-- Default values -->
+    <property name="project.name"        value="jbootstrap"/>
+    <property name="project.version"     value="1.0.0"/>
+    <property name="project.build"       value="2"/>
+    
+    <property name="versioned.name"      value="${project.name}-${project.version}"/>
+
+    <property name="project.title"       value="jBootstrap"/>
+    <property name="project.package"     value="org.ckkloverdos"/>
+    <property name="project.owner"       value="Christos KK Loverdos"/>
+    <property name="project.owner.email" value="loverdos@gmail.com"/>
+
+    <property name="jdk.source" value="1.4"/>
+    <property name="jdk.target" value="1.4"/>
+
+    <!-- Build timestamp -->
+    <tstamp/>
+    <property name="build.date" value="${DSTAMP}${TSTAMP}"/>
+
+
+    <property name="license.filename"    value="LICENSE.txt"/>
+    <property name="readme.filename"     value="README.txt"/>
+    <property name="changelog.filename"  value="ChangeLog.txt"/>
+
+    <!-- Source directories -->
+    <property name="src.home" value="src"/>
+    <property name="src.main" value="src/main"/>
+    <property name="src.java" value="${src.main}/java"/>
+
+    <property name="src.tpl" value="${src.home}/templates"/>
+    <property name="src.meta-inf" value="${src.tpl}/META-INF"/>
+    <property name="src.manifest" value="${src.meta-inf}/MANIFEST.MF"/>
+
+    <!--build and dist directories -->
+    <property name="build.home" value="build"/>
+    <property name="build.classes" value="${build.home}/classes"/>
+    <property name="build.docs" value="${build.home}/docs"/>
+    <!--<property name="build.javadocs" value="${build.docs}/api"/>-->
+    <property name="build.meta-inf" value="${build.classes}/META-INF"/>
+    <property name="build.manifest" value="${build.meta-inf}/MANIFEST.MF"/>
+
+
+    <property name="archives.home" value="archives/v-${project.version}"/>
+
+    <property name="bin.jar.filename" value="${versioned.name}.jar"/>
+    <property name="src.archive.filename" value="${versioned.name}-src.zip"/>
+    <property name="docs.archive.filename" value="${versioned.name}-docs.zip"/>
+    <property name="all.archive.filename" value="${versioned.name}-all.zip"/>
+
+    <property name="build.bin.jar" value="${build.home}/${bin.jar.filename}"/>
+    <property name="build.src.archive" value="${build.home}/${src.archive.filename}"/>
+    <property name="build.docs.archive" value="${build.home}/${docs.archive.filename}"/>
+    <property name="build.all.archive" value="${build.home}/${all.archive.filename}"/>
+
+    <!-- javac properties -->
+    <property name="compile.debug" value="true"/>
+    <property name="compile.deprecation" value="true"/>
+    <property name="compile.optimize" value="false"/>
+
+    <!-- zip properties -->
+    <property name="zip.compression.level" value="9"/>
+
+    <target name="clean" description="Clean build and distribution directories">
+        <delete dir="${build.home}"/>
+    </target>
+
+    <target name="init" description="Initialize and evaluate conditionals">
+        <echo message="--- ${project.name} ${project.version} by ${project.owner} (${project.owner.email}) ---"/>
+    </target>
+
+    <target name="prepare" depends="init" description="Prepare build directory">
+        <mkdir dir="${build.home}"/>
+        <mkdir dir="${archives.home}"/>
+    </target>
+
+    <target name="compile" depends="prepare" description="Compile main code">
+        <mkdir dir="${build.classes}"/>
+        <javac srcdir="${src.java}"
+               destdir="${build.classes}"
+               debug="${compile.debug}"
+               deprecation="${compile.deprecation}"
+               optimize="${compile.optimize}"
+               source="${jdk.source}"
+               target="${jdk.target}">
+        </javac>
+    </target>
+
+    <target name="bin-jar" depends="compile" description="Make library jar">
+        <mkdir dir="${build.meta-inf}"/>
+
+        <copyLicenseReadmeChangeLog todir="${build.meta-inf}"/>
+
+        <copy todir="${build.meta-inf}" filtering="on">
+            <filterset>
+                <filter token="name" value="${project.name}"/>
+                <filter token="owner" value="${project.owner}"/>
+                <filter token="version" value="${project.version}"/>
+                <filter token="title" value="${project.title}"/>
+                <filter token="package" value="${project.package}"/>
+                <filter token="source" value="${jdk.source}"/>
+                <filter token="target" value="${jdk.target}"/>
+                <filter token="builder" value="${user.name}"/>
+                <filter token="date" value="${build.date}"/>
+            </filterset>
+            <fileset dir="${src.meta-inf}" includes="*.MF"/>
+        </copy>
+
+        <jar jarfile="${build.bin.jar}"
+             basedir="${build.classes}"
+             manifest="${build.manifest}"
+             index="true">
+        </jar>
+
+        <copy  file="${build.bin.jar}"
+              todir="${archives.home}"/>
+    </target>
+
+    <target name="src-archive" description="Zip the sources">
+        <zip destfile="${build.src.archive}"
+                level="${zip.compression.level}">
+
+            <fileset dir="${basedir}">
+                <include name="src/"/>
+                <exclude name="src/resources/announce**"/>
+                <include name="*.xml"/>
+                <include name="*.txt"/>
+                <include name="*.properties"/>
+            </fileset>
+        </zip>
+
+        <copy  file="${build.src.archive}"
+              todir="${archives.home}"/>
+    </target>
+
+    <target name="full-archive" depends="bin-jar, src-archive" description="Archives the whole distribution">
+        <zip destfile="${build.all.archive}"
+                level="${zip.compression.level}">
+
+            <fileset dir="${build.home}">
+                <include name="${bin.jar.filename}"/>
+                <include name="${docs.archive.filename}"/>
+                <include name="${src.archive.filename}"/>
+            </fileset>
+
+            <fileset dir="${basedir}">
+                <include name="${license.filename}"/>
+                <include name="${readme.filename}"/>
+                <include name="${changelog.filename}"/>
+            </fileset>
+        </zip>
+
+        <!--<gzip src="${build.all.archive}" zipfile="${build.all.archive}.gz"/>-->
+        <!--<delete file="${build.all.archive}"/>-->
+
+        <copy  file="${build.all.archive}"
+               todir="${archives.home}"/>
+    </target>
+
+    <target name="all" depends="clean, prepare, compile, bin-jar, src-archive, full-archive"
+            description="build all"/>
+</project>

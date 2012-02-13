@@ -1,0 +1,48 @@
+﻿<?xml version="1.0"?>
+
+<project name="ant-util" basedir=".">
+
+    <description>
+        Common ant utilities.
+    </description>
+
+    <macrodef name="require">
+        <attribute name="property"/>
+        <sequential>
+            <fail unless="@{property}">Required $${@{property}} not specified</fail>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="copyLicense">
+        <attribute name="todir"/>
+        <sequential>
+            <copy file="${license.filename}"
+                 todir="@{todir}"/>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="copyReadme">
+        <attribute name="todir"/>
+        <sequential>
+            <copy file="${readme.filename}"
+                  todir="@{todir}"/>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="copyChangeLog">
+        <attribute name="todir"/>
+        <sequential>
+            <copy file="${changelog.filename}"
+                  todir="@{todir}"/>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="copyLicenseReadmeChangeLog">
+        <attribute name="todir"/>
+        <sequential>
+            <copyLicense   todir="@{todir}"/>
+            <copyReadme    todir="@{todir}"/>
+            <copyChangeLog todir="@{todir}"/>
+        </sequential>
+    </macrodef>
+</project>

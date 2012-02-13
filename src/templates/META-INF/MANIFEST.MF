@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Main-Class: @package@.bootstrap.Main
+Package: @package@
+Specification-Version: @version@
+Specification-Vendor: @owner@
+Specification-Title: @title@
+Implementation-Version: @version@
+Implementation-Vendor: Christos KK Loverdos
+Implementation-Title: @title@
+Implementation-Vendor-Id: org.ckkloverdos
+X-Compile-Source-JDK: @source@
+X-Compile-Target-JDK: @target@
+Built-By: @builder@
+Build-Date: @date@
