@@ -1,0 +1,4 @@
+2007-12-08 Christos KK Loverdos <loverdos@gmail.com>
+    * Release 2.0.0
+        - Renamed org.ckkloverdos.bootstrap to org.ckkloverdos.jbootstrap.
+        - Built by maven.

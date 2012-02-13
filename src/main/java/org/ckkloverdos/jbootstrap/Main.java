@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.ckkloverdos.bootstrap;
+package org.ckkloverdos.jbootstrap;
 
 import java.io.File;
 import java.io.IOException;
@@ -28,9 +28,8 @@ import java.util.List;
 
 /**
  * Bootstraps an application by dynamically adjusting the CLASSPATH (via the context class loader).
+ * 
  * @author Christos KK Loverdos
- * @version 1.0
- * @since 2004
  */
 public class Main
 {

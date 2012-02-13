@@ -1,0 +1,93 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.ckkloverdos</groupId>
+    <artifactId>jbootstrap</artifactId>
+    <packaging>jar</packaging>
+    <version>2.0.0</version>
+    <name>jBootstrap</name>
+
+    <developers>
+        <developer>
+            <name>Christos KK Loverdos</name>
+            <id>loverdos</id>
+            <email>loverdos@gmail.com</email>
+            <timezone>+2</timezone>
+        </developer>
+    </developers>
+
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+            <distribution>repo</distribution>
+        </license>
+    </licenses>
+
+    <build>
+        <defaultGoal>assembly:assembly</defaultGoal>
+        <plugins>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <descriptors>
+                        <descriptor>src/main/assembly/assembly-all.xml</descriptor>
+                    </descriptors>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-clean-plugin</artifactId>
+                <configuration>
+                    <verbose>true</verbose>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <configuration>
+                    <verbose>false</verbose>
+                    <bottom>Copyright &#169; Christos KK Loverdos</bottom>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.4</source>
+                    <target>1.4</target>
+                    <fork>true</fork>
+                    <verbose>true</verbose>
+                    <showWarnings>true</showWarnings>
+                    <showDeprecation>true</showDeprecation>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Main-class>org.ckkloverdos.jbootstrap.Main</Main-class>
+                            <Specification-Vendor>Christos KK Loverdos</Specification-Vendor>
+                            <Specification-Title>${pom.name}</Specification-Title>
+                            <Specification-Version>${pom.version}</Specification-Version>
+                            <Implementation-Vendor>Christos KK Loverdos</Implementation-Vendor>
+                            <Implementation-Title>${pom.name}</Implementation-Title>
+                            <Implementation-Version>${pom.version}</Implementation-Version>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <distributionManagement>
+        <repository>
+            <id>org.ckkloverdos.mavenrepo.local</id>
+            <url>file://C:/Projects/org.ckkloverdos.mavenrepo.local/m2repo</url>
+        </repository>
+    </distributionManagement>
+</project>
