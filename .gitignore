@@ -3,3 +3,5 @@ target
 deploy
 jbootstrap.iml
 release
+release.properties
+pom.xml.releaseBackup
