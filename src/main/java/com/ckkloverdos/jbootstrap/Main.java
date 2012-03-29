@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.ckkloverdos.jbootstrap;
+package com.ckkloverdos.jbootstrap;
 
 import java.io.File;
 import java.io.IOException;
