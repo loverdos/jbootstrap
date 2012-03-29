@@ -26,7 +26,7 @@
 
   <groupId>com.ckkloverdos</groupId>
   <artifactId>jbootstrap</artifactId>
-  <version>3.0.0-SNAPSHOT</version>
+  <version>3.0.0</version>
   <packaging>jar</packaging>
 
   <name>JBootstrap</name>
